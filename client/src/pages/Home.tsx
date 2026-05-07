@@ -1,13 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "../styles/tictactoe.css";
 
 /**
- * Design Philosophy: Academic Excellence
- * - Clean, professional interface reflecting university standards
- * - Deep blue and gold color scheme (traditional academic colors)
- * - Elegant typography with clear hierarchy
- * - Smooth animations and transitions
- * - Focus on clarity and user experience
+ * Jogo da Velha - Design Exato do Vídeo
+ * Minimalista com gradiente verde (#41B883) para ciano (#00D4FF)
+ * Células 100px x 100px com bordas brancas
+ * X e O desenhados com CSS puro
  */
 
 export default function Home() {
@@ -75,92 +73,46 @@ export default function Home() {
     setGameOver(false);
   };
 
-  // Render cell with X or O
+  // Render cell
   const renderCell = (index: number) => {
     const value = board[index];
     const isEmpty = value === null;
     const currentPlayer = isXNext ? "X" : "O";
-    const showPreview = isEmpty && !gameOver;
 
     return (
       <div
         key={index}
         className={`cell ${value ? value.toLowerCase() : ""} ${
-          showPreview ? `preview-${currentPlayer.toLowerCase()}` : ""
+          isEmpty && !gameOver ? `preview-${currentPlayer.toLowerCase()}` : ""
         }`}
         onClick={() => handleCellClick(index)}
       >
-        {value && <span className="cell-value">{value}</span>}
+        {value && <span className="cell-symbol">{value}</span>}
       </div>
     );
   };
 
   return (
-    <div className="tictactoe-container">
-      {/* Header */}
-      <header className="tictactoe-header">
-        <h1 className="tictactoe-title">Jogo da Velha</h1>
-        <p className="tictactoe-subtitle">Edição Acadêmica</p>
-      </header>
+    <div className="container">
+      {/* Game Board */}
+      <div className="board">{board.map((_, index) => renderCell(index))}</div>
 
-      {/* Main Content */}
-      <main className="tictactoe-main">
-        {/* Game Status */}
-        <div className="game-status">
-          {gameOver ? (
-            <div className="status-text">
-              {winner ? (
-                <span className="winner-text">
-                  Jogador <strong>{winner}</strong> Venceu! 🎓
-                </span>
-              ) : (
-                <span className="draw-text">Empate! 🤝</span>
-              )}
-            </div>
-          ) : (
-            <div className="status-text">
-              Turno do jogador: <strong>{isXNext ? "X" : "O"}</strong>
-            </div>
-          )}
-        </div>
-
-        {/* Game Board */}
-        <div className="board">{board.map((_, index) => renderCell(index))}</div>
-
-        {/* Reset Button */}
-        <button className="reset-button" onClick={handleReset}>
-          {gameOver ? "Jogar Novamente" : "Reiniciar Jogo"}
-        </button>
-      </main>
+      {/* Reset Button */}
+      <button className="reset-btn" onClick={handleReset}>
+        Reiniciar
+      </button>
 
       {/* Game Over Overlay */}
       {gameOver && (
         <div className="overlay">
-          <div className="overlay-content">
-            <div className="overlay-message">
-              {winner ? (
-                <>
-                  <h2>Parabéns!</h2>
-                  <p>Jogador {winner} é o vencedor!</p>
-                </>
-              ) : (
-                <>
-                  <h2>Empate!</h2>
-                  <p>Que jogo emocionante!</p>
-                </>
-              )}
-            </div>
-            <button className="overlay-button" onClick={handleReset}>
-              Jogar Novamente
-            </button>
+          <div className="overlay-text">
+            {winner ? `${winner} Venceu!` : "Empate!"}
           </div>
+          <button className="overlay-btn" onClick={handleReset}>
+            Reiniciar
+          </button>
         </div>
       )}
-
-      {/* Footer */}
-      <footer className="tictactoe-footer">
-        <p>Desenvolvido para fins acadêmicos</p>
-      </footer>
     </div>
   );
 }
