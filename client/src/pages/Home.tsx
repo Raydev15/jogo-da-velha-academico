@@ -1,20 +1,12 @@
 import { useState } from "react";
 import "../styles/tictactoe.css";
 
-/**
- * Jogo da Velha - Design Exato do Vídeo
- * Minimalista com gradiente verde (#41B883) para ciano (#00D4FF)
- * Células 100px x 100px com bordas brancas
- * X e O desenhados com CSS puro
- */
-
 export default function Home() {
   const [board, setBoard] = useState<(string | null)[]>(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
   const [winner, setWinner] = useState<string | null>(null);
   const [gameOver, setGameOver] = useState(false);
 
-  // Winning combinations
   const winningCombinations = [
     [0, 1, 2],
     [3, 4, 5],
@@ -26,7 +18,6 @@ export default function Home() {
     [2, 4, 6],
   ];
 
-  // Check for winner
   const checkWinner = (squares: (string | null)[]): string | null => {
     for (let combo of winningCombinations) {
       const [a, b, c] = combo;
@@ -41,12 +32,10 @@ export default function Home() {
     return null;
   };
 
-  // Check if board is full
   const isBoardFull = (squares: (string | null)[]): boolean => {
     return squares.every((square) => square !== null);
   };
 
-  // Handle cell click
   const handleCellClick = (index: number) => {
     if (board[index] || winner || gameOver) return;
 
@@ -65,7 +54,6 @@ export default function Home() {
     }
   };
 
-  // Reset game
   const handleReset = () => {
     setBoard(Array(9).fill(null));
     setIsXNext(true);
@@ -73,7 +61,6 @@ export default function Home() {
     setGameOver(false);
   };
 
-  // Render cell
   const renderCell = (index: number) => {
     const value = board[index];
     const isEmpty = value === null;
@@ -94,15 +81,12 @@ export default function Home() {
 
   return (
     <div className="container">
-      {/* Game Board */}
       <div className="board">{board.map((_, index) => renderCell(index))}</div>
 
-      {/* Reset Button */}
       <button className="reset-btn" onClick={handleReset}>
         Reiniciar
       </button>
 
-      {/* Game Over Overlay */}
       {gameOver && (
         <div className="overlay">
           <div className="overlay-text">
